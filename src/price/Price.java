@@ -7,8 +7,8 @@ public class Price implements Comparable<Price> {
 
     // constructor
      Price(int centsIn) {
-        cents = centsIn;
-    }
+         cents = centsIn;
+     }
 
     public boolean isNegative() {
         return cents < 0;
