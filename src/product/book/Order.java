@@ -3,7 +3,6 @@ package product.book;
 import price.Price;
 
 public class Order {
-
     private final String user;
     private final String product;
     private final Price price;
@@ -25,6 +24,10 @@ public class Order {
         remainingVolume = originalVolume;
         cancelledVolume = 0;
         filledVolume = 0;
+    }
+
+    public OrderDTO makeOrderDTO() {
+        return new OrderDTO(user, product, price, side, id, originalVolume, remainingVolume, cancelledVolume, filledVolume);
     }
 
     private int validateStockQuantity(int q) throws DataValidationException {
