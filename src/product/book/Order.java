@@ -14,30 +14,34 @@ public class Order {
     private int filledVolume;
 
 
-    public Order(String userCode, String stockSymbol, Price priceObject, BookSide sideOfOrder, int originalQuantity) throws DataValidationException {
-        user = validateUser(userCode);
-        product = validateProduct(stockSymbol);
-        price = validatePrice(priceObject);
-        side = validateBookSide(sideOfOrder);
+    public Order(String userCode, String stockSymbol, Price priceObject, int originalQuantity, BookSide sideOfOrder) throws DataValidationException {
+        user = setUser(userCode);
+        product = setProduct(stockSymbol);
+        price = setPrice(priceObject);
+        side = setSide(sideOfOrder);
         id = user + product + price + System.nanoTime();
-        originalVolume = validateStockQuantity(originalQuantity);
+        originalVolume = setOriginalVolume(originalQuantity);
         remainingVolume = originalVolume;
         cancelledVolume = 0;
         filledVolume = 0;
     }
 
-    public OrderDTO makeOrderDTO() {
+    public OrderDTO makeTradableDTO() {
         return new OrderDTO(user, product, price, side, id, originalVolume, remainingVolume, cancelledVolume, filledVolume);
     }
 
-    private int validateStockQuantity(int q) throws DataValidationException {
+    private int setOriginalVolume(int q) throws DataValidationException {
         if (q < 1 || q > 9999) {
             throw new DataValidationException("Invalid stock quantity passed in: " + q);
         }
         return q;
     }
 
-    private String validateUser(String user) throws DataValidationException {
+    public String getUser() {
+        return user;
+    }
+
+    private String setUser(String user) throws DataValidationException {
         // checks for null and incorrect length
         if (user == null || user.length() != 3) {
             throw new DataValidationException("Invalid user passed in: " + user);
@@ -52,7 +56,11 @@ public class Order {
         return user;
     }
 
-    private String validateProduct(String product) throws DataValidationException {
+    public String getProduct() {
+        return product;
+    }
+
+    private String setProduct(String product) throws DataValidationException {
         if (product == null || product.isEmpty() || product.length() > 5) {
             throw new DataValidationException("Invalid product passed in: " + product);
         }
@@ -65,32 +73,25 @@ public class Order {
         return product;
     }
 
-    private Price validatePrice(Price p) throws DataValidationException {
+    public Price getPrice() {
+        return price;
+    }
+
+    private Price setPrice(Price p) throws DataValidationException {
         if (p == null) {
             throw new DataValidationException("Invalid price passed in: " + p);
         }
         return p;
     }
 
-    private BookSide validateBookSide(BookSide side) throws DataValidationException {
+    public BookSide getSide() {
+        return side;
+    }
+    
+    private BookSide setSide(BookSide side) throws DataValidationException {
         if (side == null) {
             throw new DataValidationException("Invalid book side passed in: " + side);
         }
-        return side;
-    }
-    public String getUser() {
-        return user;
-    }
-
-    public String getProduct() {
-        return product;
-    }
-
-    public Price getPrice() {
-        return price;
-    }
-
-    public BookSide getSide() {
         return side;
     }
 

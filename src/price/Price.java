@@ -4,8 +4,7 @@ import java.util.Objects;
 
 public class Price implements Comparable<Price> {
     private final int cents;
-
-    // constructor
+    
      Price(int centsIn) {
          cents = centsIn;
      }
