@@ -39,7 +39,7 @@ public class ProductBookSide {
         return newOrderDTO;
     }
 
-    public OrderDTO cancel(String orderId) {
+    public OrderDTO cancel(String orderId) throws DataValidationException {
         for (ArrayList<Order> orderList : bookEntries.values()) {
             for (Order order : orderList) {
                 if (order.getId().equals(orderId)) {
@@ -114,7 +114,7 @@ public class ProductBookSide {
         }
     }
 
-    public void tradeOut(Price price, int vol) {
+    public void tradeOut(Price price, int vol) throws DataValidationException{
         int remainingVolume = vol;
         ArrayList<Order> ordersAtPrice = bookEntries.get(price);
 

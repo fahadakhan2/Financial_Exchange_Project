@@ -2,6 +2,8 @@ package product.book;
 
 import price.Price;
 
+import javax.xml.crypto.Data;
+
 public class Order {
     private final String user;
     private final String product;
@@ -107,7 +109,10 @@ public class Order {
         return remainingVolume;
     }
 
-    public void setRemainingVolume(int remainingVolume) {
+    public void setRemainingVolume(int remainingVolume) throws DataValidationException {
+        if (remainingVolume < 0 || remainingVolume > originalVolume) {
+            throw new DataValidationException("Invalid volume passed in: " + remainingVolume);
+        }
         this.remainingVolume = remainingVolume;
     }
 
@@ -115,7 +120,10 @@ public class Order {
         return cancelledVolume;
     }
 
-    public void setCancelledVolume(int cancelledVolume) {
+    public void setCancelledVolume(int cancelledVolume) throws DataValidationException {
+        if (cancelledVolume < 0 || cancelledVolume > originalVolume) {
+            throw new DataValidationException("Invalid volume passed in: " + cancelledVolume);
+        }
         this.cancelledVolume = cancelledVolume;
     }
 
@@ -123,7 +131,10 @@ public class Order {
         return filledVolume;
     }
 
-    public void setFilledVolume(int filledVolume) {
+    public void setFilledVolume(int filledVolume) throws DataValidationException {
+        if (filledVolume < 0 || filledVolume > originalVolume) {
+            throw new DataValidationException("Invalid volume passed in: " + filledVolume);
+        }
         this.filledVolume = filledVolume;
     }
 

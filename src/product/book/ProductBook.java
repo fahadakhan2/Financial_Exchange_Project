@@ -27,7 +27,7 @@ public class ProductBook {
         return product;
     }
 
-    public OrderDTO add(Order o) throws InvalidPriceOperationException{
+    public OrderDTO add(Order o) throws DataValidationException, InvalidPriceOperationException{
         if (o.getSide().equals(BookSide.BUY)) {
             OrderDTO buySideOrderDTO = buySide.add(o);
             tryTrade();
@@ -39,7 +39,7 @@ public class ProductBook {
         }
     }
 
-    public OrderDTO cancel(BookSide side, String orderId) {
+    public OrderDTO cancel(BookSide side, String orderId) throws DataValidationException{
          if (side == BookSide.BUY) {
              return buySide.cancel(orderId);
          } else {
@@ -47,7 +47,7 @@ public class ProductBook {
          }
     }
 
-    public void tryTrade() throws InvalidPriceOperationException {
+    public void tryTrade() throws DataValidationException,InvalidPriceOperationException {
         Price topBuyPrice = buySide.topOfBookPrice();
         Price topSellPrice = sellSide.topOfBookPrice();
 
