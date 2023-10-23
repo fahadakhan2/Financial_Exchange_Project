@@ -2,8 +2,6 @@ package product.book;
 
 import price.Price;
 
-import javax.xml.crypto.Data;
-
 public class Order {
     private final String user;
     private final String product;
@@ -44,7 +42,6 @@ public class Order {
     }
 
     private String setUser(String user) throws DataValidationException {
-        // checks for null and incorrect length
         if (user == null || user.length() != 3) {
             throw new DataValidationException("Invalid user passed in: " + user);
         }
