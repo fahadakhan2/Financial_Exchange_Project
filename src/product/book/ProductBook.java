@@ -39,7 +39,7 @@ public class ProductBook {
         }
     }
 
-    public OrderDTO cancel(BookSide side, String orderId) throws DataValidationException{
+    public OrderDTO cancel(BookSide side, String orderId) throws DataValidationException {
          if (side == BookSide.BUY) {
              return buySide.cancel(orderId);
          } else {

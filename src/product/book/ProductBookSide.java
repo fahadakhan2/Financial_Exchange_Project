@@ -35,7 +35,7 @@ public class ProductBookSide {
 
         }
         OrderDTO newOrderDTO = o.makeTradableDTO();
-        System.out.println("ADD: " + side + " " + newOrderDTO.toString());
+        System.out.println("ADD: " + side + ": " + newOrderDTO.toString());
         return newOrderDTO;
     }
 
@@ -55,7 +55,7 @@ public class ProductBookSide {
                     }
 
                     OrderDTO cancelledOrderDTO = order.makeTradableDTO();
-                    System.out.println("ADD: " + side + " " + cancelledOrderDTO.toString());
+                    System.out.println("ADD: " + side + ": " + cancelledOrderDTO.toString());
                     return cancelledOrderDTO;
                 }
             }

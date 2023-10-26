@@ -21,7 +21,6 @@ public class User {
             throw new DataValidationException("Invalid user passed in: " + user);
         }
 
-        // loop that checks each char in the user string. If any non-letter character is found throw exception
         for (char c : user.toCharArray()) {
             if (!Character.isLetter(c) || Character.isLowerCase(c)) {
                 throw new DataValidationException("Invalid user passed in: " + user);
@@ -37,7 +36,7 @@ public class User {
         orders.put(o.id, o);
     }
 
-    boolean hasOrderWithRemainingQty() {
+    public boolean hasOrderWithRemainingQty() {
         for (OrderDTO order : orders.values()) {
             if (order.remainingVolume > 0) {
                 return true;
@@ -46,7 +45,7 @@ public class User {
         return false;
     }
 
-    OrderDTO getOrderWithRemainingQty() {
+    public OrderDTO getOrderWithRemainingQty() {
         for (OrderDTO order : orders.values()) {
             if (order.remainingVolume > 0) {
                 return order;
