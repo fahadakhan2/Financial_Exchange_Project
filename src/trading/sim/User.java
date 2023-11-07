@@ -1,5 +1,7 @@
 package trading.sim;
 
+import current.market.CurrentMarketObserver;
+import current.market.CurrentMarketSide;
 import product.book.DataValidationException;
 import product.book.OrderDTO;
 import java.util.HashMap;

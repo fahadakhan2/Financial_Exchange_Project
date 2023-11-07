@@ -32,11 +32,8 @@ public class Price implements Comparable<Price> {
         return PriceFactory.makePrice(diff);
     }
 
-    public Price multiply(Price p) throws InvalidPriceOperationException {
-        if (p == null) {
-            throw new InvalidPriceOperationException("Invalid price passed in: " + p);        }
-
-        int product = cents * p.cents;
+    public Price multiply(int p) {
+        int product = cents * p;
         return PriceFactory.makePrice(product);
     }
 
