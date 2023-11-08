@@ -6,9 +6,10 @@ import product.book.DataValidationException;
 import product.book.OrderDTO;
 import java.util.HashMap;
 
-public class User {
+public class User implements CurrentMarketObserver {
     private String userId;
     private static final HashMap<String, OrderDTO> orders = new HashMap<>();
+    private static HashMap<String, CurrentMarketSide[]> currentMarkets = new HashMap<>();
 
     public User(String userId) throws DataValidationException {
         setUserId(userId);
@@ -70,6 +71,34 @@ public class User {
             sb.append("User: ").append(userId).append(", ");
             sb.append("Side: ").append(order.side).append(", ");
             sb.append("Id: ").append(order.id).append("\n");
+        }
+        return sb.toString();
+    }
+
+    @Override
+    public void updateCurrentMarket(String symbol, CurrentMarketSide buySide, CurrentMarketSide sellSide) throws DataValidationException {
+        if (buySide == null || sellSide == null) {
+            throw new DataValidationException("Invalid CurrentMarketSide passed in as an argument: " + null);
+        }
+
+        CurrentMarketSide[] currentMarketSidesArray = new CurrentMarketSide[2];
+        currentMarketSidesArray[0] = buySide;
+        currentMarketSidesArray[1] = sellSide;
+        currentMarkets.put(symbol, currentMarketSidesArray);
+    }
+
+    public String getCurrentMarkets() {
+        StringBuilder sb = new StringBuilder();
+
+        for (String symbol : currentMarkets.keySet()) {
+            CurrentMarketSide[] sides = currentMarkets.get(symbol);
+
+            if (sides != null && sides.length == 2) {
+                CurrentMarketSide buySide = sides[0];
+                CurrentMarketSide sellSide = sides[1];
+
+                sb.append(symbol).append("\t").append(buySide.toString()).append(" - ").append(sellSide.toString()).append("\n");
+            }
         }
         return sb.toString();
     }

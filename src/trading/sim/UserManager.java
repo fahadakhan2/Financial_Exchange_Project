@@ -55,4 +55,8 @@ public final class UserManager {
         }
         return sb.toString();
     }
+
+    public User getUser(String id) {
+        return users.get(id);
+    }
 }

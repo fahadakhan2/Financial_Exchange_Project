@@ -46,7 +46,7 @@ public final class ProductManager {
         return pb.add(o);
     }
 
-    public OrderDTO cancel(OrderDTO o) {
+    public OrderDTO cancel(OrderDTO o) throws InvalidPriceOperationException {
         ProductBook pb = productBooks.get(o.product);
         try {
             return pb.cancel(o.side, o.id);

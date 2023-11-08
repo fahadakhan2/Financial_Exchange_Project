@@ -2,6 +2,7 @@ package current.market;
 
 import price.InvalidPriceOperationException;
 import price.Price;
+import product.book.DataValidationException;
 
 public final class CurrentMarketTracker {
     private static CurrentMarketTracker instance;
@@ -14,7 +15,7 @@ public final class CurrentMarketTracker {
         return instance;
     }
 
-    public void updateMarket(String symbol, Price buyPrice, int buyVolume, Price sellPrice, int sellVolume) throws InvalidPriceOperationException {
+    public void updateMarket(String symbol, Price buyPrice, int buyVolume, Price sellPrice, int sellVolume) throws InvalidPriceOperationException, DataValidationException {
         String marketWidth;
 
         if (sellPrice == null || buyPrice == null) {
@@ -35,6 +36,6 @@ public final class CurrentMarketTracker {
         System.out.println(currentMarket);
         System.out.println("**************************************");
 
-        acceptCurrentMarket(symbol, buySide, sellSide);
+        CurrentMarketPublisher.getInstance().acceptCurrentMarket(symbol, buySide, sellSide);
     }
 }

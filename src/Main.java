@@ -16,7 +16,7 @@ public class Main {
             CurrentMarketTracker cmt = CurrentMarketTracker.getInstance();
             cmt.updateMarket(symbol, buyPrice, buyVolume, sellPrice, sellVolume);
 
-        } catch(InvalidPriceOperationException e) {
+        } catch(InvalidPriceOperationException | DataValidationException e) {
             e.getMessage();
         }
     }

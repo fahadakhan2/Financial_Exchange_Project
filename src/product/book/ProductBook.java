@@ -1,5 +1,6 @@
 package product.book;
 
+import current.market.CurrentMarketTracker;
 import price.InvalidPriceOperationException;
 import price.Price;
 
@@ -12,6 +13,16 @@ public class ProductBook {
         this.product = validateProduct(product);
         buySide = new ProductBookSide(BookSide.BUY);
         sellSide = new ProductBookSide(BookSide.SELL);
+    }
+
+    private void updateMarket() throws InvalidPriceOperationException, DataValidationException {
+        Price buySideTopPrice = buySide.topOfBookPrice();
+        int buySideTopVolume = buySide.topOfBookVolume();
+
+        Price sellSideTopPrice = sellSide.topOfBookPrice();
+        int sellSideTopVolume = sellSide.topOfBookVolume();
+
+        CurrentMarketTracker.getInstance().updateMarket(product, buySideTopPrice, buySideTopVolume, sellSideTopPrice, sellSideTopVolume);
     }
 
     private String validateProduct(String product) throws DataValidationException {
@@ -31,19 +42,25 @@ public class ProductBook {
         if (o.getSide().equals(BookSide.BUY)) {
             OrderDTO buySideOrderDTO = buySide.add(o);
             tryTrade();
+            updateMarket();
             return buySideOrderDTO;
         } else {
             OrderDTO sellSideOrderDTO = sellSide.add(o);
             tryTrade();
+            updateMarket();
             return sellSideOrderDTO;
         }
     }
 
-    public OrderDTO cancel(BookSide side, String orderId) throws DataValidationException {
+    public OrderDTO cancel(BookSide side, String orderId) throws DataValidationException, InvalidPriceOperationException {
          if (side == BookSide.BUY) {
-             return buySide.cancel(orderId);
+             OrderDTO bOrderDTO = buySide.cancel(orderId);
+             updateMarket();
+             return bOrderDTO;
          } else {
-             return sellSide.cancel(orderId);
+             OrderDTO sOrderDTO = sellSide.cancel(orderId);
+             updateMarket();
+             return sOrderDTO;
          }
     }
 
