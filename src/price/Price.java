@@ -14,7 +14,6 @@ public class Price implements Comparable<Price> {
     }
 
     public Price add(Price p) throws InvalidPriceOperationException {
-        // null check
         if (p == null) {
             throw new InvalidPriceOperationException("Invalid price passed in: " + p);
         }
@@ -24,7 +23,6 @@ public class Price implements Comparable<Price> {
     }
 
     public Price subtract(Price p) throws InvalidPriceOperationException {
-        // null check
         if (p == null) {
             throw new InvalidPriceOperationException("Invalid price passed in: " + p);        }
 

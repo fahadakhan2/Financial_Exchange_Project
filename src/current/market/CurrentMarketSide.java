@@ -13,6 +13,6 @@ public class CurrentMarketSide {
 
     @Override
     public String toString() {
-        return price.toString() + "x" + volume;
+        return price + "x" + volume;
     }
 }

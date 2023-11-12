@@ -1,5 +1,6 @@
 package trading.sim;
 
+import current.market.CurrentMarketPublisher;
 import price.InvalidPriceOperationException;
 import price.Price;
 import price.PriceFactory;
@@ -21,17 +22,35 @@ public class TradingSim {
     public static void runSim() throws DataValidationException, InvalidPriceOperationException {
         UserManager.getInstance().init(new String[]{"ANN", "BOB", "CAT", "DOG", "EGG"});
 
+        User userAnn = UserManager.getInstance().getUser("ANN");
+        User userBob = UserManager.getInstance().getUser("BOB");
+        User userCat = UserManager.getInstance().getUser("CAT");
+        User userDog = UserManager.getInstance().getUser("DOG");
+        User userEgg = UserManager.getInstance().getUser("EGG");
+
         ProductManager.getInstance().addProduct("WMT");
         ProductManager.getInstance().addProduct("TGT");
         ProductManager.getInstance().addProduct("AMZN");
         ProductManager.getInstance().addProduct("TSLA");
+
+        CurrentMarketPublisher.getInstance().subscribeCurrentMarket("WMT", userAnn);
+        CurrentMarketPublisher.getInstance().subscribeCurrentMarket("TGT", userAnn);
+        CurrentMarketPublisher.getInstance().subscribeCurrentMarket("TGT", userBob);
+        CurrentMarketPublisher.getInstance().subscribeCurrentMarket("TSLA", userBob);
+        CurrentMarketPublisher.getInstance().subscribeCurrentMarket("AMZN", userCat);
+        CurrentMarketPublisher.getInstance().subscribeCurrentMarket("TGT", userCat);
+        CurrentMarketPublisher.getInstance().subscribeCurrentMarket("WMT", userCat);
+        CurrentMarketPublisher.getInstance().subscribeCurrentMarket("TSLA", userDog);
+        CurrentMarketPublisher.getInstance().subscribeCurrentMarket("WMT", userEgg);
+
+        CurrentMarketPublisher.getInstance().unSubscribeCurrentMarket("TGT", userBob);
 
         basePrices.put("WMT", 140.98);
         basePrices.put("TGT", 174.76);
         basePrices.put("AMZN", 102.11);
         basePrices.put("TSLA", 196.81);
 
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < 10000; i++) {
             User user = UserManager.getInstance().getRandomUser();
 
             if (Math.random() < 0.9) {
@@ -66,6 +85,21 @@ public class TradingSim {
         }
         ProductManager.getInstance().toString();
         UserManager.getInstance().toString();
+
+        userAnn.getCurrentMarkets();
+        userBob.getCurrentMarkets();
+        userCat.getCurrentMarkets();
+        userDog.getCurrentMarkets();
+        userEgg.getCurrentMarkets();
+
+        CurrentMarketPublisher.getInstance().unSubscribeCurrentMarket("WMT", userAnn);
+        CurrentMarketPublisher.getInstance().unSubscribeCurrentMarket("TGT", userAnn);
+        CurrentMarketPublisher.getInstance().unSubscribeCurrentMarket("TSLA", userBob);
+        CurrentMarketPublisher.getInstance().unSubscribeCurrentMarket("AMZN", userCat);
+        CurrentMarketPublisher.getInstance().unSubscribeCurrentMarket("TGT", userCat);
+        CurrentMarketPublisher.getInstance().unSubscribeCurrentMarket("WMT", userCat);
+        CurrentMarketPublisher.getInstance().unSubscribeCurrentMarket("TSLA", userDog);
+        CurrentMarketPublisher.getInstance().unSubscribeCurrentMarket("WMT", userEgg);
     }
 
     private static Price getPrice(String symbol, BookSide side) {
